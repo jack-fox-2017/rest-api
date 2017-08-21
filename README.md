@@ -34,7 +34,7 @@ Database Migration (to create table on database)
     /users/:id | GET | Get a single user info (admin and authenticated user)
     /users | POST | Create a user (admin only)
     /api/users/:id | DELETE | Delete a user (admin only)
-    /api/users/:id | PUT | Update a user with new info (admin and authenticated user)
+    /users/:id | PUT | Update a user with new info (admin and authenticated user)
 
 
 

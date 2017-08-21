@@ -30,8 +30,32 @@ let getById = (req, res) => {
   })
 }
 
+let updateUser = (req, res) => {
+  userModel.User.findById(req.params.id)
+  .then(user => {
+    user.update({
+      username: req.body.username,
+      password: req.body.password
+    })
+    .then(() => {
+      res.send('Data has been updated')
+    })
+  })
+}
+
+let deleteUser = (req, res) => {
+  userModel.User.destroy({
+    where: {id: req.params.id}
+  })
+  .then(() => {
+    res.send('User has been deleted')
+  })
+}
+
 module.exports = {
+  addUser,
   getAll,
   getById,
-  addUser
+  updateUser,
+  deleteUser
 }
