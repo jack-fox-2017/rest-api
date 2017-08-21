@@ -1,4 +1,15 @@
 const db = require('../models');
+const generateAlphaNumeric = require('../helpers/generateAlphaNumeric');
+const crypto = require("crypto");
+
+function convertPass(pass,secret) {
+  console.log(pass);
+  console.log(secret);
+  var hash = crypto.createHmac('sha256', `${secret}`)
+                     .update(`${pass}`)
+                     .digest('hex');
+  return hash;
+}
 
 const getAllUsers = function(req,res) {
   db.User.findAll()
@@ -22,17 +33,22 @@ const getUserById = function(req,res){
 }
 
 const createUser = function(req,res){
-  var newUser = {
-    username: `${req.body.username}`,
-    password: `${req.body.password}`
-  }
-
-  db.User.create(newUser)
-  .then((row)=>{
-    res.json(row)
-  })
-  .catch((err)=>{
-    res.json(err)
+  var secretKeyLength = 8;
+  generateAlphaNumeric(secretKeyLength,(secret)=>{
+    var newUser = {
+      username: `${req.body.username}`,
+      password: `${req.body.password}`,
+      secret: `${secret}`,
+      role: `${req.body.role}`,
+      email: `${req.body.email}`
+    }
+    db.User.create(newUser)
+    .then((row)=>{
+      res.json(row)
+    })
+    .catch((err)=>{
+      res.json(err)
+    })
   })
 }
 
