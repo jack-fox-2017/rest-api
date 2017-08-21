@@ -2,19 +2,53 @@ const model = require('../models')
 const randomSecret = require('../helpers/randomSecret')
 const encrypt = require('../helpers/encrypt')
 const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
 var getAll = (req, res) => {
-  model.User.findAll()
-  .then(dataUsers => {
-    res.send(dataUsers)
-  })
+  var token = req.headers.token
+  if (token == null) {
+    res.send('Anda belum login')
+  }
+  else {
+    var decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    if (decoded.role == 'admin') {
+      model.User.findAll()
+      .then(dataUsers => {
+        res.send(dataUsers)
+      })
+    }
+    else {
+      res.send('Anda bukan admin')
+    }
+  }
 }
 
 var getById = (req, res) => {
-  model.User.findById(req.params.id)
-  .then(dataUser => {
-    res.send(dataUser)
-  })
+  if (req.headers.token == null) {
+    res.send('Anda belum login')
+  }
+  else {
+    var decoded = jwt.verify(req.headers.token, process.env.TOKEN_SECRET);
+    if (decoded.role == 'admin') {
+      model.User.findById(req.params.id)
+      .then(dataUser => {
+        res.send(dataUser)
+      })
+    }
+    else if (decoded.id == req.params.id) {
+      model.User.findById(req.params.id)
+      .then(dataUser => {
+        res.send(dataUser)
+      })
+    }
+    else {
+      res.send('Anda hanya bisa melihat data Anda sendiri')
+    }
+  }
+
+
+
+
 }
 
 var insert = (req, res) => {
@@ -85,7 +119,18 @@ var signIn = (req, res) => {
   })
   .then(data => {
     if (data.password == encrypt(data.secret, req.body.password)) {
-      res.send('sign in success')
+
+
+      var token = jwt.sign({
+        id: data.id,
+        username: data.username,
+        role: data.role
+      }, process.env.TOKEN_SECRET);
+
+      // res.send('sign in success')
+      res.send(token)
+
+
     }
     else {
       res.send('password salah')
