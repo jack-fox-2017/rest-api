@@ -4,7 +4,7 @@ require('dotenv').config()
 let authorizedAdmin = (req, res, next) => {
   let token = req.headers.token
   jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
-    console.log(decoded);
+    // console.log(decoded);
     if(err){
       res.send('Login First!')
     } else {
