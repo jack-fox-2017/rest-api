@@ -16,6 +16,4 @@ app.use('/signup', signup)
 app.use('/signin', signin)
 
 
-app.listen(3000, ()=>{
-  console.log('Listen on you 3000');
-})
+app.listen(process.env.NODE_ENV ||3000)
