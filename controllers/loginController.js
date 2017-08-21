@@ -26,6 +26,7 @@ var signIn = (req, res) => {
       let pass = encryptme(req.body.password, dataUser[0].secret)
       if(dataUser[0].password == pass){
         var makeToken = {
+          id: `${dataUser[0].id}`,
           username: `${dataUser[0].username}`,
           role: `${dataUser[0].role}`
         }
