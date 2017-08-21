@@ -14,6 +14,9 @@ module.exports = function(sequelize, DataTypes) {
     hooks: {
       beforeCreate: model => {
         model.password = encrypt(model.secret, model.password)
+      },
+      beforeUpdate: model => {
+        model.password = encrypt(model.secret, model.password)
       }
     }
   });

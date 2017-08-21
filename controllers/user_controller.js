@@ -106,12 +106,15 @@ var edit = (req, res) => {
         email: req.body.email,
         phone: req.body.phone,
         username: req.body.username,
-        role: req.body.role
+        password: req.body.password,
+        role: req.body.role,
+        secret: randomSecret()
       },
       {
         where: {
           id: req.params.id
-        }
+        },
+        individualHooks: true
       })
       .then(() => {
         res.send('data updated')
@@ -123,12 +126,15 @@ var edit = (req, res) => {
         email: req.body.email,
         phone: req.body.phone,
         username: req.body.username,
-        role: req.body.role
+        password: req.body.password,
+        role: req.body.role,
+        secret: randomSecret()
       },
       {
         where: {
           id: req.params.id
-        }
+        },
+        individualHooks: true
       })
       .then(() => {
         res.send('data updated')
@@ -184,6 +190,8 @@ var signIn = (req, res) => {
     res.send('username tidak ada')
   })
 }
+
+
 
 
 module.exports = {
