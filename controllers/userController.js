@@ -1,4 +1,6 @@
 const db = require('../models');
+const salt = require('../helpers/salt');
+const encryptme = require('../helpers/encryptme');
 
 var findAll = (req, res) => {
   db.User.findAll()
@@ -25,9 +27,11 @@ var findById = (req, res) => {
 }
 
 var put = (req, res) => {
+  let pass = encryptme(req.body.password, req.body.secret)
   db.User.update({
     username: req.body.username,
-    password: req.body.password
+    password: pass,
+    secret: req.body.secret
   },{
     where: {
       id: req.params.id

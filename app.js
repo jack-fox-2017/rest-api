@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-var api = require('./routes/api');
+var apiUser = require('./routes/apiUser');
 
 var app = express();
 
@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/api/users', api);
+app.use('/api/users', apiUser);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
