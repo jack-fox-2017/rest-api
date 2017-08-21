@@ -1,15 +1,17 @@
 const models = require('../models');
 const hash = require('../helpers/hashPassword');
 var jwt = require('jsonwebtoken');
+require('dotenv').config()
 
 var signin = (req, res)=>{
   models.User.findOne({
     where:{username:req.body.username}
   })
   .then(user=>{
+    console.log(process.env.PRIVATE_KEY)
     let passwordHash = hash(user.salt, req.body.password)
     if(passwordHash == user.password){
-      var token = jwt.sign({ username: user.username, role: user.role }, 'shhhhh');
+      var token = jwt.sign({ username: user.username, role: user.role }, process.env.PRIVATE_KEY);
       res.json({
         token : token
       });
