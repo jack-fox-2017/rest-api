@@ -109,7 +109,7 @@ const signup = (req, res)=>{
   .then(()=>{
     res.send("Register Success")
   }).catch(err=>{
-    res.send(err)
+    res.send("salah")
   })
 }
 
