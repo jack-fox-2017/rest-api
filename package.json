@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon app.js"
   },
   "dependencies": {
     "body-parser": "~1.17.1",
@@ -12,11 +12,10 @@
     "debug": "~2.6.3",
     "dotenv": "^4.0.0",
     "cors": "^2.8.4",
-    "mongoose": "^4.11.5",
+    "mongoose": "^4.11.3",
     "jsonwebtoken": "^7.4.2",
     "bcryptjs": "^2.4.3",
     "fb": "^2.0.0",
-    "mongodb": "^2.2.30",
-    "mongoose": "^4.11.3"
+    "mongodb": "^2.2.30"
   }
 }
