@@ -1,11 +1,15 @@
-var express = require('express');
-var router = express.Router();
+const jwt = require('jsonwebtoken');
+const express = require('express');
+const router = express.Router();
 const controller = require("../controller/userController")
 
-router.get('/', controller.findAll)
-router.get("/:id", controller.findById)
-router.post("/", controller.create)
-router.delete("/:id", controller.destroy)
-router.put("/:id", controller.update)
+router.post("/login/", controller.login)
+router.post("/signup", controller.signup)
+
+router.get('/users', controller.findAll)
+router.get("/users/:id", controller.findById)
+router.post("/users", controller.create)
+router.delete("users/:id", controller.destroy)
+router.put("/users/:id", controller.update)
 
 module.exports = router;

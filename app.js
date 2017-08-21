@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', index);
-app.use('/api/users', users);
+app.use('/api/', users);
 
 app.listen(3000)
 // // catch 404 and forward to error handler
