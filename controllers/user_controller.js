@@ -5,12 +5,11 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 var getAll = (req, res) => {
-  var token = req.headers.token
-  if (token == null) {
+  if (req.headers.token == null) {
     res.send('Anda belum login')
   }
   else {
-    var decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    var decoded = jwt.verify(req.headers.token, process.env.TOKEN_SECRET);
     if (decoded.role == 'admin') {
       model.User.findAll()
       .then(dataUsers => {
@@ -45,55 +44,100 @@ var getById = (req, res) => {
       res.send('Anda hanya bisa melihat data Anda sendiri')
     }
   }
-
-
-
-
 }
 
 var insert = (req, res) => {
-  model.User.create({
-    name: req.body.name,
-    email: req.body.email,
-    phone: req.body.phone,
-    username: req.body.username,
-    password: req.body.password,
-    role: req.body.role,
-    secret: randomSecret()
-  })
-  .then(() => {
-    res.send('data inserted')
-  })
+  if (req.headers.token == null) {
+    res.send('Anda belum login')
+  }
+  else {
+    var decoded = jwt.verify(req.headers.token, process.env.TOKEN_SECRET);
+    if (decoded.role == 'admin') {
+      model.User.create({
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone,
+        username: req.body.username,
+        password: req.body.password,
+        role: req.body.role,
+        secret: randomSecret()
+      })
+      .then(() => {
+        res.send('data inserted')
+      })
+    }
+    else {
+      res.send('Anda bukan admin')
+    }
+  }
 }
 
 var remove = (req, res) => {
-  model.User.destroy({
-    where: {
-      id: req.params.id
+  if (req.headers.token == null) {
+    res.send('Anda belum login')
+  }
+  else {
+    var decoded = jwt.verify(req.headers.token, process.env.TOKEN_SECRET);
+    if (decoded.role == 'admin') {
+      model.User.destroy({
+        where: {
+          id: req.params.id
+        }
+      })
+      .then(() => {
+        res.send('data deleted')
+      })
     }
-  })
-  .then(() => {
-    res.send('data deleted')
-  })
+    else {
+      res.send('Anda bukan admin')
+    }
+  }
 }
 
 var edit = (req, res) => {
-  // todo: buat method update data
-  model.User.update({
-    name: req.body.name,
-    email: req.body.email,
-    phone: req.body.phone,
-    username: req.body.username,
-    role: req.body.role
-  },
-  {
-    where: {
-      id: req.params.id
+  if (req.headers.token == null) {
+    res.send('Anda belum login')
+  }
+  else {
+    var decoded = jwt.verify(req.headers.token, process.env.TOKEN_SECRET);
+    if (decoded.role == 'admin') {
+      model.User.update({
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone,
+        username: req.body.username,
+        role: req.body.role
+      },
+      {
+        where: {
+          id: req.params.id
+        }
+      })
+      .then(() => {
+        res.send('data updated')
+      })
     }
-  })
-  .then(() => {
-    res.send('data updated')
-  })
+    else if (decoded.id == req.params.id) {
+      model.User.update({
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone,
+        username: req.body.username,
+        role: req.body.role
+      },
+      {
+        where: {
+          id: req.params.id
+        }
+      })
+      .then(() => {
+        res.send('data updated')
+      })
+    }
+    else {
+      res.send('Anda hanya bisa mengedit data Anda sendiri')
+    }
+  }
 }
 
 var signUp = (req, res) => {
