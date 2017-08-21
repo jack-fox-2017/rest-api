@@ -1,6 +1,7 @@
 const userModel = require('../models')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs');
+require('dotenv').config()
 
 let signup = (req, res) => {
   const password = req.body.password
@@ -38,7 +39,7 @@ let signin = (req, res) => {
       bcrypt.compare(password, user.password)
       .then(bcryptResult => {
         if(bcryptResult){
-          const token = jwt.sign({username: user.username}, 'keyVega');
+          const token = jwt.sign({username: user.username}, process.env.SECRET_KEY);
           res.json({token: token})
         } else {
           res.send('Wrong Password')
