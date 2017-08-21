@@ -7,4 +7,10 @@ router.get('/', userController.getAll)
 
 router.get('/:id', userController.getById)
 
+router.post('/', userController.create)
+
+router.delete('/:id', userController.destroyById)
+
+router.put('/:id', userController.updateById)
+
 module.exports = router;
