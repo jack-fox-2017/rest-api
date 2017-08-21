@@ -12,6 +12,7 @@ module.exports = function (sequelize, DataTypes) {
   }, {
     hooks: {
       beforeCreate: function (models) {
+        console.log(models);
         let salt = random.randomStr(8);
         let password = models.password
         models.password = random.hashish(password, salt);
