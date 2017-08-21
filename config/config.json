@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "msi",
+    "password": "msi",
+    "database": "apijwt",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
