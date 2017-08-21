@@ -4,11 +4,9 @@ const crypto = require("crypto");
 
 
 var jwt = require('jsonwebtoken');
-var tokenAdmin = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhaG1hdDEyMyIsImVtYWlsIjoidW5ob29tYW5AYW51LmNvLmlkIiwicm9sZSI6ImFkbWluIiwiaGFzTG9naW4iOnRydWUsImlhdCI6MTUwMzMwODY5NX0.3H51OKYmRB88vwMpmWVlJ6eZBxvsKhuVouq7zb9slv4"
-var tokenMember = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFjaW0iLCJlbWFpbCI6ImFjaW1AYW51LmNvLmlkIiwicm9sZSI6Im1lbWJlciIsImhhc0xvZ2luIjp0cnVlLCJpYXQiOjE1MDMzMTAxNjB9.ID1fZjMAhxM0Efu13DjdZ5cP8YKh23-crF4oJ2Z9nRM"
 
 const loginCheck = (req,res,next)=>{
-  jwt.verify(tokenMember, process.env.SECRET_TOKEN_KEY, (err,decoded)=>{
+  jwt.verify(req.headers.token, process.env.SECRET_TOKEN_KEY, (err,decoded)=>{
     if(err !== null){
       res.json({err: 'belum login'})
     } else {
@@ -18,7 +16,7 @@ const loginCheck = (req,res,next)=>{
 }
 
 const adminMiddleware = (req,res,next) =>{
-  jwt.verify(tokenMember, 'makannasi', (err,decoded)=>{
+  jwt.verify(req.headers.token, 'makannasi', (err,decoded)=>{
     if(decoded.role == 'admin'){
       next()
     } else {
