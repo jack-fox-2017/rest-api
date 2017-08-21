@@ -8,7 +8,8 @@ var findAll = (req, res) => {
 var createData = (req, res) => {
   db.User.create({
     username: req.body.username,
-    password: req.body.password
+    password: req.body.password,
+    role: req.body.role
   })
   .then(dataUser => res.json(dataUser))
 }
