@@ -3,20 +3,10 @@
 module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.bulkInsert('Users', [{
-      username: 'user1',
-      password: 'user1',
-      secret: '',
+      username: 'achim',
+      password: '69719dc52deb4afa2dee43aa5bb43d7110c5a09d5e4e76798b842b7c05d4',
+      secret: 'wk2cc0gu',
       role: 'admin'
-    },{
-      username: 'user2',
-      password: 'user2',
-      secret: '',
-      role: 'member'
-    },{
-      username: 'user3',
-      password: 'user3',
-      secret: '',
-      role: 'member'
     }], {});
   },
 
