@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 // const model = require('../models');
 var userController =require('../controller/userController')
-
+const authentikasi = require('../helpers/authentikasi');
 // router.get('/',function(req,res){
 //   res.send("sukses api")
 // })
 
-router.get('/users', userController.getall)
+router.get('/users', authentikasi.cek,userController.getall)
 
 router.post('/signup', userController.signUp)
 
@@ -17,6 +17,7 @@ router.delete('/users/:id',userController.deletebyid)
 
 router.put('/users/:id',userController.update)
 
+router.post('/signin',userController.signIn)
 
 module.exports = router;
 

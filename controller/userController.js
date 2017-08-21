@@ -1,7 +1,9 @@
 const model = require('../models');
 var bcrypt = require('bcrypt');
 var salt = bcrypt.genSaltSync(10);
-// var hash = bcrypt.hashSync(myPlaintextPassword, salt);
+require('dotenv').config()
+var jwt = require('jsonwebtoken');
+//
 
 // router.get('/',function(req,res){
 //   res.send("sukses api")
@@ -22,7 +24,8 @@ var signUp = function(req,res){
   model.User.create({
     username : req.body.username,
     fullname : req.body.fullname,
-    password : hash
+    password : hash,
+    role : req.body.role
   })
   .then((data) => {
     res.send(data)
@@ -53,7 +56,8 @@ var update = function(req,res){
   model.User.update({
     username : req.body.username,
     fullname : req.body.fullname,
-    password : req.body.password
+    password : req.body.password,
+    role : req.body.role
   },{
     where:{
       id:req.params.id
@@ -67,6 +71,29 @@ var update = function(req,res){
   })
 }
 
+var signIn = function(req,res){
+  model.User.findOne({
+    where : {
+      username : req.body.username
+    }
+  })
+  .then(user => {
+    if (bcrypt.compareSync(req.body.password, user.password)){
+      var token = jwt.sign({
+        username : user.username,
+        role : user.role
+      },
+      process.env.DB_PASS
+    )
+      res.send({pesan:"login berhasil",isitoken : token})
+    } else {
+      res.send('username atau password anda salah')
+    }
+  })
+  .catch(err => {
+    res.send(err)
+  })
+}
 
 module.exports = {getall,
-signUp,getbyid,deletebyid,update};
+signUp,getbyid,deletebyid,update,signIn};
