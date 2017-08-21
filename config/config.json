@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "ganteng",
+    "password": "12345",
+    "database": "res-api",
+    "host": "localhost",
+    "dialect": "postgres"
+  }
+}
