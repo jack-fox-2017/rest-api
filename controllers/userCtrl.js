@@ -3,6 +3,7 @@
 const db = require('../models')
 const crypt = require('../helpers/crypt.js');
 const keygen = require('../helpers/keygen.js');
+const auth = require('../helpers/authorizer')
 
 // create
 exports.createUser = (req, res) => {
@@ -13,7 +14,7 @@ exports.createUser = (req, res) => {
     username : req.body.username,
     password : hashed,
     salt     : salt,
-    role     : user
+    role     : 'user'
   }
   db.User.create(data)
   .then(user => {
@@ -52,12 +53,17 @@ exports.findUserById = (req, res) => {
 exports.editUser = (req, res) => {
   let salt = keygen()
   let hashed = crypt(req.body.password, salt)
+
+  if (auth.isAdmin) {
+    let role = req.body.role
+  }
+
   let updater = {
     name     : req.body.name,
     username : req.body.username,
     password : hashed,
     salt     : salt,
-    role     : 'user'
+    role     : role || 'user'
   }
   db.User.update(updater, {
     where : {

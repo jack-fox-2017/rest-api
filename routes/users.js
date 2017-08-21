@@ -5,7 +5,8 @@ const auth = require('../helpers/authorizer')
 
 
 // create (signup)
-router.post('/signup', user.createUser);
+router.post('/', auth.isAdmin, user.createUser); // user created by admin
+router.post('/signup', user.createUser); // user created by signing up
 
 // read
 router.get('/', auth.isAdmin, user.findAllUser);
