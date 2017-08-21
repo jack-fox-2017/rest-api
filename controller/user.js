@@ -1,4 +1,7 @@
 const models = require('../models')
+const saltPassword = require('../helpers/salt')
+const jwt = require('jsonwebtoken');
+const decode = require('../helpers/role')
 
 var getAllData = function(req, res){
   models.User.findAll()
@@ -11,12 +14,19 @@ var getAllData = function(req, res){
 }
 
 var addData = (req, res)=>{
-  models.User.create(req.body)
-  .then((user)=>{
-    res.send(`Berhasil menambahkan data`)
+  console.log(req.body);
+  models.User.create({
+    name: req.body.name,
+    email: req.body.email,
+    username: req.body.username,
+    password: req.body.password,
+    role: 'user'
+  })
+  .then(()=>{
+    res.send('Succes create user')
   })
   .catch(err=>{
-    res.send(err)
+    res.send(err.errors[0].message)
   })
 }
 
@@ -31,7 +41,17 @@ var getData = (req, res)=>{
 }
 
 var updateData = (req, res)=>{
-  models.User.update(req.body ,{
+  if(decode.roleAdmin){
+    var role = req.body.role
+  }
+  let data ={
+    name: req.body.name,
+    email:req.body.email,
+    username: req.body.username,
+    password: req.body.password,
+    role: role || "user"
+  }
+  models.User.update(data ,{
     where:{id:req.params.id}
   })
   .then((user)=>{
@@ -52,10 +72,31 @@ var deleteData = (req, res)=>{
   })
 }
 
+var login = (req, res)=>{
+  models.User.findOne({
+    where:{username: req.body.username}
+  })
+  .then((user)=>{
+    var salted = user.salt
+    var password = req.body.password
+    var newPassword = saltPassword.createSalt(password, salted)
+    if(user.password === newPassword){
+      var token = jwt.sign({ id: user.id, username: user.username, role:user.role }, 'shhhhh');
+      res.send(token)
+    } else{
+      res.send('Password False')
+    }
+  })
+  .catch(err=>{
+    res.send(err)
+  })
+}
+
 module.exports = {
   getAllData,
   addData,
   getData,
   updateData,
-  deleteData
+  deleteData,
+  login
 }
