@@ -18,7 +18,7 @@ module.exports = {
       password: 'c228b285703ca0804b2625e0c795560d6f59e6b06887d0aac8c470f307dbb230',
       email: 'admin@anu.co.id',
       secret: '7reihzu0',
-      role: 'admin'
+      role: 'admin',
       createdAt : new Date(),
       updatedAt : new Date()
     },{
@@ -26,7 +26,7 @@ module.exports = {
       password: '53bf24685bc88f42455db711399823fbc7a431790332c6f2e9ee0357cc66bfbc',
       email: 'member@anu.co.id',
       secret: 'i63uhfdv',
-      role: 'admin'
+      role: 'member',
       createdAt : new Date(),
       updatedAt : new Date()
     }])
