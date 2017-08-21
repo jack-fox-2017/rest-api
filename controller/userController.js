@@ -21,13 +21,32 @@ const findAll = (req, res)=>{
 }
 
 const findById = (req, res)=>{
-  db.User.findById(req.params.id)
-  .then(row=>{
-    res.send(row)
-  }).catch(err=>{
-    res.send(err)
-  })
+  let token = req.headers.token
+  let decoded = jwt.verify(token, process.env.TOKEN)
+  if(token == null){
+    res.send("Anda Belum Login")
+  }else{
+    if(decoded.role == "admin"){
+      db.User.findById(req.params.id)
+      .then(row=>{
+        res.send(row)
+      }).catch(err=>{
+        res.send(err)
+      })
+    }else if(decoded.id == req.params.id){
+      // console.log(decoded.id);
+      db.User.findById(req.params.id)
+      .then(row=>{
+        res.send(row)
+      }).catch(err=>{
+        res.send(err)
+      })
+    }else{
+      res.send("Maaf anda tidak punya hak akses")
+    }
+  }
 }
+
 const create = (req, res)=>{
   let token = req.headers.token
   let decoded = jwt.verify(token, process.env.TOKEN)
@@ -64,18 +83,28 @@ const destroy = (req, res)=>{
   }
 }
 const update = (req, res)=>{
-  db.User.update({
-    username : req.body.username,
-    password : req.body.password,
-    role : req.body.role,
-    createdAt : new Date(),
-    updatedAt : new Date()
-  }, {where : {id : req.params.id}})
-  .then(()=>{
-    res.send("telah diupdate")
-  }).catch(err=>{
-    res.send(err)
-  })
+  let token = req.headers.token
+  let decoded = jwt.verify(token, process.env.TOKEN)
+  if(token == null){
+    res.send("Anda belum login")
+  }else{
+    if(decoded.role == "admin" || decoded.id == req.params.id){
+      db.User.update({
+        username : req.body.username,
+        password : req.body.password,
+        role : req.body.role,
+        createdAt : new Date(),
+        updatedAt : new Date()
+      }, {where : {id : req.params.id}})
+      .then(()=>{
+        res.send("telah diupdate")
+      }).catch(err=>{
+        res.send(err)
+      })
+    }else{
+      res.render("Maaf anda tidak punya akses")
+    }
+  }
 }
 
 const signup = (req, res)=>{
@@ -100,7 +129,8 @@ const login = (req, res)=>{
       let token = {}
        token.token = jwt.sign({
         username:row.username,
-        role:row.role
+        role:row.role,
+        id:row.id
       }, process.env.TOKEN)
       res.send(token)
       // res.send("Anda Telah Masuk")
