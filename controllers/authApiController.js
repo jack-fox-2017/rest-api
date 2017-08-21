@@ -1,6 +1,7 @@
 const db = require('../models');
 const generateAlphaNumeric = require('../helpers/generateAlphaNumeric');
 const crypto = require("crypto");
+var jwt = require('jsonwebtoken');
 
 function convertPass(pass,secret) {
   console.log(pass);
@@ -24,7 +25,14 @@ const signinUser = function(req,res) {
     } else {
       let hashPass = convertPass(req.body.password,row.secret)
       if (row.password === hashPass){
-        res.json({success: 'success'})
+        payload = {
+          username: `${row.username}`,
+          email: `${row.email}`,
+          role: `${row.role}`,
+          hasLogin: true
+        }
+        var token = jwt.sign(payload, process.env.SECRET_TOKEN_KEY)
+        res.json({success: 'success', tokenAuth: token})
       } else {
         res.json({err: 'password salah'})
       }
