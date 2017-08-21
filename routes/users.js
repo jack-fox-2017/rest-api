@@ -12,4 +12,12 @@ router.get('/:id', user.GetUser)
 
 router.post('/', user.createUser)
 
+router.delete('/:id', user.deleteUser)
+
+router.put('/:id', user.editUser)
+
+router.post('/signup', user.signup)
+
+router.post('/signin', user.signin)
+
 module.exports = router;
