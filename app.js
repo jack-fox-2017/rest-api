@@ -1,9 +1,11 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 var apiUser = require('./routes/apiUser');
+var apiLogin = require('./routes/apiLogin');
 
 var app = express();
 
@@ -19,6 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/api', apiLogin);
 app.use('/api/users', apiUser);
 
 // catch 404 and forward to error handler

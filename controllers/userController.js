@@ -1,10 +1,18 @@
 const db = require('../models');
 const salt = require('../helpers/salt');
 const encryptme = require('../helpers/encryptme');
+const jwt = require('jsonwebtoken');
 
 var findAll = (req, res) => {
-  db.User.findAll()
-  .then(dataUser => res.json(dataUser))
+  var token = req.headers.token;
+  var jwtLogin = jwt.verify(token, 'thesecret')
+
+  if(jwtLogin == 'admin'){
+    db.User.findAll()
+    .then(dataUser => res.json(dataUser))
+  } else {
+    res.send('anda tidak memiliki hak akses')
+  }
 }
 
 var createData = (req, res) => {
