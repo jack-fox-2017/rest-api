@@ -21,15 +21,7 @@ var getUserById = (req, res) =>{
 }
 
 var createUser = (req, res) =>{
-  models.User.create({
-    name: req.body.name,
-    username: req.body.username,
-    password: req.body.password,
-    email: req.body.email,
-    role: req.body.role,
-    updatedAt: new Date(),
-    createdAt: new Date()
-  })
+  models.User.create(req.body)
   .then(()=>{
     res.send('created')
   })
