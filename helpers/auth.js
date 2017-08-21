@@ -17,9 +17,10 @@ let authorizedAdmin = (req, res, next) => {
 }
 
 let authorizedUser = (req, res, next) => {
-  let token = req.headers.token
-  let id = req.params.id
+  let token = req.headers.token;
+  let id = req.params.id;
   jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+    // console.log(decoded);
     if(decoded.role === 'admin' || decoded.id == id){
       next()
     } else {
