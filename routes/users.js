@@ -3,17 +3,19 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models');
 const user = require('../controllers/usercontroller');
+const verification = require('../helpers/verification');
+const verificationAdmin = require('../helpers/verificationAdmin');
 
 
 /* GET users listing. */
-router.get('/', user.getAllUser);
+router.get('/', verificationAdmin.authorize, user.getAllUser);
 
-router.get('/:id', user.GetUser)
+router.get('/:id', verification.authetic, user.GetUser)
 
-router.post('/', user.createUser)
+router.post('/', verificationAdmin.authorize, user.createUser)
 
-router.delete('/:id', user.deleteUser)
+router.delete('/:id', verificationAdmin.authorize, user.deleteUser)
 
-router.put('/:id', user.editUser)
+router.put('/:id', verification.authetic, user.editUser)
 
 module.exports = router;
