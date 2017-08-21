@@ -20,5 +20,9 @@ module.exports = function(sequelize, DataTypes) {
     user.password = crypto.createHmac('sha256', user.salt).update(user.password).digest('hex')
   })
 
+  User.beforeUpdate(user => {
+    user.password = crypto.createHmac('sha256', user.salt).update(user.password).digest('hex')
+  })
+
   return User;
 };

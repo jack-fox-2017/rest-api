@@ -73,7 +73,7 @@ module.exports = {
 		if (req.headers.hasOwnProperty('token'))
 			jwt.verify(req.headers.token, process.env.TOKEN_SECRET_KEY, (err, decoded) => {
 				if (err == null)
-					db.User.update(req.body, {where: {id: req.params.id}})
+					db.User.update(req.body, {where: {id: req.params.id}, individualHooks: true})
 					.then(result => {res.json(result)})
 					.catch(err => {res.json(err)})
 				else res.send(err)
