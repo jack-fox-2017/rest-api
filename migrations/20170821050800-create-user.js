@@ -18,9 +18,16 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
+      salt: {
+        type: Sequelize.STRING,
+        unique: true
+      },
       email: {
         type: Sequelize.STRING,
         unique: true
+      },
+      role: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
