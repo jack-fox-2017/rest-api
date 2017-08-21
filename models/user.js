@@ -37,13 +37,13 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
   }, {
-    hooks : {
-      beforeCreate : user => {
-        let salt = keygen();
-        user.password = crypt(user.password, salt);
-        user.salt = salt;
-      }
-    }
+    // hooks : {
+    //   beforeCreate : user => {
+    //     let salt = keygen();
+    //     user.password = crypt(user.password, salt);
+    //     user.salt = salt;
+    //   }
+    // }
   });
   return User;
 };

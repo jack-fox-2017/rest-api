@@ -1,12 +1,23 @@
 'use strict'
 
 const db = require('../models')
+const crypt = require('../helpers/crypt.js');
+const keygen = require('../helpers/keygen.js');
 
 // create
 exports.createUser = (req, res) => {
-  db.User.create(req.body)
-  .then(data => {
-    res.send(data)
+  let salt = keygen()
+  let hashed = crypt(req.body.password, salt)
+  let data = {
+    name     : req.body.name,
+    username : req.body.username,
+    password : hashed,
+    salt     : salt,
+    role     : user
+  }
+  db.User.create(data)
+  .then(user => {
+    res.send(user)
   })
   .catch(e => {
     res.send(e)
@@ -39,7 +50,16 @@ exports.findUserById = (req, res) => {
 
 // update
 exports.editUser = (req, res) => {
-  db.User.update(req.body, {
+  let salt = keygen()
+  let hashed = crypt(req.body.password, salt)
+  let updater = {
+    name     : req.body.name,
+    username : req.body.username,
+    password : hashed,
+    salt     : salt,
+    role     : 'user'
+  }
+  db.User.update(updater, {
     where : {
       id : req.params.id
     }
