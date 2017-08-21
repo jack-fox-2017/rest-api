@@ -1,20 +1,36 @@
 const crypto = require('crypto');
 var randomBytes = require('random-bytes')
 var jwt = require('jsonwebtoken');
+require('dotenv').config()
+
 
 function admin(req, res, next)
 {
   // console.log(req.headers.token);
-  var decoded = jwt.verify(req.headers.token, 'halo');
+  var decoded = jwt.verify(req.headers.token, process.env.SECRETKEY);
   if(decoded.Role == 'admin')
   {
     next()
   }
   else {
-    res.send('Login dulu')
+    res.send('maaf anda belum terdaftar sebagai admin')
   }
   // console.log(decoded)
+}
 
+function adminUser(req, res, next)
+{
+  var decoded = jwt.verify(req.headers.token, process.env.SECRETKEY);
+  if(decoded.Role === 'user')
+  {
+    next()
+  }
+  else if (decoded.Role === 'admin') {
+    next()
+  }
+  else {
+    res.send('maaf anda belum terdaftar sebagai user atau admin')
+  }
 }
 
 function randomValueHex (len)//untuk men generate si secret key
@@ -38,5 +54,6 @@ function cryptoGraph(password, secret)// secret di gunakan sebagai pola untuk ha
 module.exports = {
   randomValueHex,
   cryptoGraph,
-  admin
+  admin,
+  adminUser
 }

@@ -7,15 +7,22 @@ module.exports = function(sequelize, DataTypes) {
     password: DataTypes.STRING,
     Role: DataTypes.STRING,
     secretkey: DataTypes.STRING
-  },{
+  }, {
     hooks: {
-    beforeCreate: (user) => {
-      // let temp = user.password
-      let salt = helper.randomValueHex(12);
-      user.password = helper.cryptoGraph(user.password, salt)
-      user.secretkey = salt
+      beforeCreate: (user) => {
+        // let temp = user.password
+        let salt = helper.randomValueHex(12);
+        user.password = helper.cryptoGraph(user.password, salt)
+        user.secretkey = salt
+      }
+      ,beforeUpdate: (user) => {
+        // let temp = user.password
+        let salt = helper.randomValueHex(12);
+        user.password = helper.cryptoGraph(user.password, salt)
+        user.secretkey = salt
+      }
     }
   }
-});
+);
   return User;
 };

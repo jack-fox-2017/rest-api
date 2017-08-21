@@ -1,6 +1,8 @@
 const db = require('../models')
 var helper = require('../helper/helper')
 var jwt = require('jsonwebtoken');
+require('dotenv').config()
+
 
 var userInfo = function(req, res) {
   db.User.findAll()
@@ -54,7 +56,8 @@ var updateUser = function(req, res){
     Role:req.body.role,
     updatedAt: new Date()
   },{
-    where:{id:req.params.id}
+    where:{id:req.params.id},
+    individualHooks:true // untuk hash update password
   })
   .then(() =>{
     res.send('Data successfully update')
@@ -93,10 +96,11 @@ var signin = function(req, res){
       if(data.password == req.body.password)
       {
         var token = jwt.sign({
+          id:data.id,
           username:req.body.username,
           Role:data.Role
-        }, 'halo');
-        // console.log("=x=x=x=>",token);
+        }, process.env.SECRETKEY);
+        console.log("=x=x=x=>",token);
         res.send(token)
       }
     })
