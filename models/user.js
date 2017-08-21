@@ -12,6 +12,11 @@ module.exports = function(sequelize, DataTypes) {
         let random = crypto.random(8)
         model.password = crypto.secretkey(model.password, random)
         model.secret = random
+      },
+      beforeUpdate : (model)=>{
+        let random = crypto.random(8)
+        model.password = crypto.secretkey(model.password, random)
+        model.secret = random
       }
     }
   });

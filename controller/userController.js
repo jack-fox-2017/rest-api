@@ -26,15 +26,7 @@ const findById = (req, res)=>{
   if(token == null){
     res.send("Anda Belum Login")
   }else{
-    if(decoded.role == "admin"){
-      db.User.findById(req.params.id)
-      .then(row=>{
-        res.send(row)
-      }).catch(err=>{
-        res.send(err)
-      })
-    }else if(decoded.id == req.params.id){
-      // console.log(decoded.id);
+    if(decoded.role == "admin" || decoded.id == req.params.id){
       db.User.findById(req.params.id)
       .then(row=>{
         res.send(row)
@@ -91,18 +83,17 @@ const update = (req, res)=>{
     if(decoded.role == "admin" || decoded.id == req.params.id){
       db.User.update({
         username : req.body.username,
-        password : req.body.password,
         role : req.body.role,
         createdAt : new Date(),
         updatedAt : new Date()
-      }, {where : {id : req.params.id}})
+      }, {where : {id : req.params.id}, individualHooks : true})
       .then(()=>{
         res.send("telah diupdate")
       }).catch(err=>{
         res.send(err)
       })
     }else{
-      res.render("Maaf anda tidak punya akses")
+      res.send("Maaf anda tidak punya akses")
     }
   }
 }
