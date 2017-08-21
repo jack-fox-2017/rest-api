@@ -23,7 +23,7 @@ let authorizedUser = (req, res, next) => {
     if(decoded.role === 'admin' || decoded.id == id){
       next()
     } else {
-      res.send('You are not authorized. Register first!')
+      res.send('You are not authorized!')
     }
   })
 }

@@ -11,7 +11,7 @@ let signup = (req, res) => {
       userModel.User.create({
         username: req.body.username,
         password: req.body.password,
-        role: 'user',
+        role: req.body.role || 'user',
         createdAt: new Date(),
         updatedAt: new Date()
       })
