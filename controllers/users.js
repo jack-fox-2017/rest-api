@@ -21,9 +21,15 @@ var getUserById = (req, res) =>{
 }
 
 var createUser = (req, res) =>{
-  models.User.create(req.body)
+  models.User.create({
+    name: req.body.name,
+    username: req.body.username,
+    password: req.body.password,
+    salt: null,
+    role: 'admin'
+  })
   .then(()=>{
-    res.send('created')
+    res.send('admin created')
   })
   .catch(err=>{
     res.send(err)
@@ -33,10 +39,7 @@ var createUser = (req, res) =>{
 var updateUser = (req, res) =>{
   models.User.update({
     name: req.body.name,
-    username: req.body.username,
-    password: req.body.password,
-    email: req.body.email,
-    role: req.body.role
+    username: req.body.username
   },{
     where:{id:req.params.id}
   })

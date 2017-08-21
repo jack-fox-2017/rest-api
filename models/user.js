@@ -1,17 +1,23 @@
 'use strict';
+
+const hashPassword = require('../helpers/hashPassword');
+const saltGenerate = require('../helpers/saltGenerator');
+
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define('User', {
     name: DataTypes.STRING,
     username: DataTypes.STRING,
     password: DataTypes.STRING,
-    email: DataTypes.STRING,
+    salt: DataTypes.STRING,
     role: DataTypes.STRING
-  }, {
-    classMethods: {
-      associate: function(models) {
-        // associations can be defined here
-      }
-    }
   });
+
+  User.beforeCreate((user)=>{
+    let salt = saltGenerate();
+    let hash = hashPassword(salt, user.password);
+    user.salt = salt;
+    user.password = hash;
+  })
+
   return User;
 };
