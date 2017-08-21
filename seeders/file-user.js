@@ -19,7 +19,7 @@ module.exports = {
       role: "user",
       salt: "8cf6b6f5",
       createdAt: new Date(),
-      updatedAt: new Date()te()
+      updatedAt: new Date()
     }], {})
   },
 
