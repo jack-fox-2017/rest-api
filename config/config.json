@@ -1,0 +1,19 @@
+{
+  "development": {
+    "username": "user_intro",
+    "password": "12345",
+    "database": "introseq",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+  "use_env_variable": "DATABASE_URL"
+  }
+}
