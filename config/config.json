@@ -14,10 +14,6 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "userbaru",
-    "password":"bebas",
-    "database": "devdb_1",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
+    "use_env_variable" : "DATABASE_URL"
   }
 }
