@@ -17,6 +17,7 @@ exports.findUser = (req, res) => {
     let pass = crypt(req.body.password, usrdata.salt)
     if (pass === usrdata.password) {
       let token = jwt.sign({
+        id: usrdata.id,
         username: usrdata.username,
         role: usrdata.role
       }, process.env.SECRET)
