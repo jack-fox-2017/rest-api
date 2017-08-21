@@ -7,8 +7,7 @@ const express = require('express'),
     
 require('dotenv').config()
     
-const index = require('./routes/index');
-const signup = require('./routes/signup');
+const user = require('./routes/users');
 
 // app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -16,8 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 
-app.use('/', index);
-app.use('/signup', signup);
+app.use('/users', user);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
