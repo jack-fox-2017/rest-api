@@ -127,3 +127,8 @@ Database Migration (to create table on database)
     ├── package.json
     ├── app.js
     ├── .env.template
+    
+    
+    Deploy to Heroku: 
+    
+    https://ve-api.herokuapp.com/
