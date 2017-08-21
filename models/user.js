@@ -8,7 +8,8 @@ module.exports = function(sequelize, DataTypes) {
     phone: DataTypes.STRING,
     username: DataTypes.STRING,
     password: DataTypes.STRING,
-    secret: DataTypes.STRING
+    secret: DataTypes.STRING,
+    role: DataTypes.STRING
   }, {
     hooks: {
       beforeCreate: model => {

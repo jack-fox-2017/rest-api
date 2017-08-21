@@ -22,6 +22,7 @@ var insert = (req, res) => {
     phone: req.body.phone,
     username: req.body.username,
     password: req.body.password,
+    role: req.body.role,
     secret: randomSecret()
   })
   .then(() => {
@@ -46,7 +47,8 @@ var edit = (req, res) => {
     name: req.body.name,
     email: req.body.email,
     phone: req.body.phone,
-    username: req.body.username
+    username: req.body.username,
+    role: req.body.role
   },
   {
     where: {
