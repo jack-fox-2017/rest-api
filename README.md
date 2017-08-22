@@ -15,6 +15,8 @@ Aplikasi ini merupakan aplikasi user login sederhana menggunakan metede MVC dan 
 | Route        |  HTTP  |                 Description                    |
 |--------------|:------:|:----------------------------------------------:|
 | /users/      | GET    | Get all the users                              |
+| /signin/     | POST   | Sign In user                                   |
+| /signup/     | POST   | Sign Up user                                   |
 | /users/:id   | GET    | Get user based on id user                      |
 | /users/      | POST   | Create a user                                  |
 | /users/:id   | DELETE | Delete a user                                  |

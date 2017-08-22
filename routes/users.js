@@ -3,9 +3,9 @@ const express = require('express');
 const auth = require('../helper/auth')
 const router = express.Router();
 
-/* GET users listing. */
+
 router.get('/users', auth.adminOnly, userController.getAllUser);
-router.get('/users/:id', userController.getUserById);
+router.get('/users/:id', auth.adminAuthUser, userController.getUserById);
 router.post('/signup', userController.signUp);
 router.post('/signin', userController.signIn);
 router.post('/users', auth.adminOnly, userController.addUser)

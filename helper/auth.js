@@ -1,10 +1,10 @@
-
 var jwt = require('jsonwebtoken');
 require('dotenv').config();
 const db = require('../models')
 
 const adminOnly = (req, res, next) => {
   let tokenJWT = jwt.verify(req.headers.token, process.env.SECRET_KEY)
+  console.log(tokenJWT);
     if(tokenJWT.role == 'admin'){
       next();
     }else {

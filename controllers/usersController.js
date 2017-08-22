@@ -46,7 +46,7 @@ const deleteUser = (req, res) =>{
     where: {id:req.params.id}
   })
   .then( () =>{
-    res.send(`Anda mendelete user dengan id ${req.params.id}`)
+    res.send(`User dengan id ${req.params.id} berhasil di delete`)
   })
   .catch( err => {
     res.send(err)
@@ -61,7 +61,7 @@ const updateUser =  (req, res) => {
       email: req.body.email,
       username: req.body.username,
       password: hashPwd,
-      role: req.body.role
+      role: 'user'
     },{
       where: {id:req.params.id}
     }
@@ -77,8 +77,8 @@ const signUp = (req, res) => {
     name: req.body.name,
     email: req.body.email,
     username: req.body.username,
-    password: hashPwd,
-    role: req.body.role
+    password: hashPwd
+    role: 'user'
   })
   .then( data => {
     res.send(data)
@@ -95,7 +95,6 @@ const signIn = (req, res) => {
   .then( data => {
     if(bcrypt.compareSync(req.body.password, data.password)){
       var token = jwt.sign({username: data.username, role:data.role, id: data.id}, process.env.SECRET_KEY)
-      req.headers.token = token;
       res.send({
         msg:`User ${data.username} sukses login`,
         token: token
