@@ -1,0 +1,24 @@
+{
+  "name": "rest-api-1",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "~1.17.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.3",
+    "dotenv": "^4.0.0",
+    "ejs": "~2.5.6",
+    "express": "~4.15.2",
+    "jsonwebtoken": "^7.4.3",
+    "morgan": "~1.8.1",
+    "nodemon": "^1.11.0",
+    "pg": "^6.4.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.3.1",
+    "sequelize-cli": "^2.7.0",
+    "serve-favicon": "~2.4.2"
+  }
+}
