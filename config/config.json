@@ -1,0 +1,12 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "dolanan",
+    "database": "rest-api",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL"
+  }
+}
