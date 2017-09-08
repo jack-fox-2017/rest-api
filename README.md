@@ -31,3 +31,5 @@ You can use only with npm:
 ><p>npm run dev</p>
 
 After run you can access directly via `http://localhost:3005/api`
+
+or you can test from this link `https://rest-api-alfan.herokuapp.com`

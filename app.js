@@ -20,12 +20,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 var index = require('./routes/index');
 var users = require('./routes/users');
 var apiUsers = require('./routes/apiUsers');
-var api = require('./routes/api');
+var nutritionixApi = require('./routes/nutritionixApi');
 
 app.use('/', index);
 app.use('/users', users);
 app.use('/api/users',apiUsers);
-app.use('/api',api)
+app.use('/nutritionix-api',nutritionixApi)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
